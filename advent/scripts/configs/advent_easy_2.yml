@@ -1,0 +1,51 @@
+SOURCE: Paris
+TARGET: Chicago
+#---REVERSE---
+# SOURCE: Vaihingen
+# TARGET: PotsdamRGB
+
+# DATA_LIST_TARGET: ../CCDA/easy_split.txt
+DATA_LIST_TARGET: ../CCDA/hard_split.txt
+CHOICE_PRED: PRED1
+NUM_WORKERS: 8
+GPU_ID: 5
+EXP_NAME: 'reproduce_Paris_Chi_CDA_HARD' #FL represents the Feature-Level Adaptation
+                                        #EL represents the Entropy-Level Adaptation
+GPU_PARALLEL: True #  1:for gpu parallel 0:not
+TRAIN:
+  INPUT_SIZE_SOURCE:
+    - 512
+    - 512
+  DA_METHOD: AdvEnt
+  MODEL: DeepLabv3
+  GANLOSS: BCE
+
+  COFFECIENT: False
+# 
+  SET_SOURCE: 'train_and_pseudo_r_0.5'
+  # SET_SOURCE: 'train'
+  RESTORE_FROM: ../../experiments/reproduce_Paris_Chi_CCDA/reproduce_Paris_Chi_FL_HARD/model_200.pth
+  # RESTORE_FROM: ../../pretrained_models/Paris_source_model.pth
+  MAX_ITERS: 10000
+  EARLY_STOP: 10000
+  # ../../experiments/snapshots/reproduce_PotsIRRG_Vaih_FL/model_900.pth
+  # ../../pretrained_models/PotsIRRG_source_model.pth
+  # Models in different stages:
+  # /root/code/CCDA_LGFA/ADVENT/pretrained_models/PotsIRRG_source_model.pth
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_FL/model_1800.pth
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_EL/model_2700.pth
+
+  #--REVERSE--
+  # Models in different stages:
+  #/root/code/CCDA_LGFA/ADVENT/on_vaih_model_13000.pth
+
+  MULTI_LEVEL: False
+  LAMBDA_SEG_MAIN: 1.0
+  LAMBDA_SEG_AUX: 0.1
+  LAMBDA_SEG_LOW: 0.1
+  LAMBDA_ADV_MAIN: 0.1
+  LAMBDA_ADV_AUX: 0.1
+  LAMBDA_ADV_LOW: 0.1
+TEST:
+  MODE: best
+  SNAPSHOT_STEP: 400

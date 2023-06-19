@@ -1,0 +1,40 @@
+# NEED TO CHANGE
+SOURCE: VaihingenEasy
+TARGET: VaihingenHard
+#--REVERSE--
+# SOURCE: PotsdamEasy
+# TARGET: PotsdamHard
+
+DATA_LIST_TARGET: ./hard_split.txt
+
+NUM_WORKERS: 8
+GPU_ID: 1
+EXP_NAME: 'PIRGB_to_V_16to18'  #FL represents the Feature-Level Adaptation
+GPU_PARALLEL: 0 #  1:for gpu parallel 0:not
+TRAIN:
+  INPUT_SIZE_SOURCE:
+    - 512
+    - 512
+  DA_METHOD: AdvEnt
+  SET_SOURCE: 'train_and_pseudo_r_0.5'
+  IS_HARDSTAGE: 1   # 0:FOR easy-stage  1:for hard-stage
+  MODEL: DeepLabv3
+  MAX_ITERS: 6000
+  EARLY_STOP: 6000
+  RESTORE_FROM: ../../experiments/snapshots/PIRGB_to_V_15to16/model_100.pth
+
+  # Models in different stages:
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_EL/model_2700.pth
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_Hard_FL/model_2800.pth
+
+  #--REVERSE--
+
+  MULTI_LEVEL: False
+  LAMBDA_SEG_MAIN: 1.0
+  LAMBDA_SEG_AUX: 0.1
+  LAMBDA_SEG_LOW: 0.1
+  LAMBDA_ADV_MAIN: 0.1
+  LAMBDA_ADV_AUX: 0.1
+  LAMBDA_ADV_LOW: 0.1
+TEST:
+  MODE: best
