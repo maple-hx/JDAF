@@ -1,0 +1,50 @@
+# NEED TO CHANGE
+SOURCE: ChicagoEasy
+TARGET: ChicagoHard
+#--REVERSE--
+# SOURCE: PotsdamEasy
+# TARGET: PotsdamHard
+
+DATA_LIST_TARGET: ./hard_split.txt
+
+NUM_WORKERS: 8
+GPU_ID: 5
+EXP_NAME: 'reproduce_Paris_Chi_CDA_HARD'  #FL represents the Feature-Level Adaptation
+GPU_PARALLEL: True #  1:for gpu parallel 0:not
+CHOICE_PRED: 'PRED1'
+VISUAL: False
+TRAIN:
+  INPUT_SIZE_SOURCE:
+    - 512
+    - 512
+  DA_METHOD: AdvEnt
+  GANLOSS: BCE
+  SET_SOURCE: 'train_and_pseudo_r_0.5'
+  # SET_SOURCE: 'train'
+  MODEL: DeepLabv3
+
+  COFFECIENT: True
+
+  MAX_ITERS: 25000
+  EARLY_STOP: 25000
+  RESTORE_FROM: ../../experiments/reproduce_Paris_Chi/reproduce_Paris_Chi_EL_HARD/model_300.pth
+  RESTORE_FROM_MEMORYSRC: ../../experiments/reproduce_Paris_Chi/reproduce_Paris_Chi_CDA/memorysrc_700.pth
+  RESTORE_FROM_MEMORYTAR: ../../experiments/reproduce_Paris_Chi/reproduce_Paris_Chi_CDA/memorytar_700.pth
+  RESTORE_FROM_MEMORYMODEL: ../../experiments/reproduce_Paris_Chi/reproduce_Paris_Chi_CDA/memorymodel_700.pth
+
+  # Models in different stages:
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_EL/model_2700.pth
+  # /root/code/CCDA_LGFA/ADVENT/experiments/snapshots/reproduce_PotsIRRG_Vaih_Hard_FL/model_2800.pth
+
+  #--REVERSE--
+
+  MULTI_LEVEL: False
+  LAMBDA_SEG_MAIN: 1.0
+  LAMBDA_SEG_AUX: 0.1
+  LAMBDA_SEG_LOW: 0.1
+  LAMBDA_ADV_MAIN: 0.1
+  LAMBDA_ADV_AUX: 0.1
+  LAMBDA_ADV_LOW: 0.1
+TEST:
+  MODE: best
+  SNAPSHOT_STEP: 400
