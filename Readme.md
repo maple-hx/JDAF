@@ -4,7 +4,7 @@
 
 ## Model:
 
-![总模型.svg](Joint%20Distribution%20Adaptive-Alignment%20for%20Cross-Do%20a26aba09ae0a4301939f1705d518b12f/%25E6%2580%25BB%25E6%25A8%25A1%25E5%259E%258B.svg)
+![总模型.svg](Readme/%25E6%2580%25BB%25E6%25A8%25A1%25E5%259E%258B.svg)
 
 ![Untitled](Joint%20Distribution%20Adaptive-Alignment%20for%20Cross-Do%20a26aba09ae0a4301939f1705d518b12f/Untitled.svg)
 
